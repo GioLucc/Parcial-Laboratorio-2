@@ -80,3 +80,24 @@ int controller_sortBookAuthors(LinkedList* pArrayListBooks)
 	return state;
 }
 
+int controller_saveAsText(char* path , LinkedList* pArrayListMinotauroBooks, LinkedList* pArrayListEditorialsList)
+{
+	int state;
+	FILE* pFile;
+
+	state = -1;
+
+	if(path != NULL && pArrayListMinotauroBooks != NULL)
+	{
+		pFile = fopen(path,"w");
+
+		if(pFile != NULL && !parser_ToSaveAsText(pFile, pArrayListMinotauroBooks,pArrayListEditorialsList))
+		{
+			state = 0;
+		}
+			fclose(pFile);
+	}
+
+	return state;
+}
+

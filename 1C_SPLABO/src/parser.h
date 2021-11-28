@@ -11,6 +11,8 @@
 
 int parser_BooksFromText(FILE* pFile , LinkedList* pArrayListBooks);
 int parser_EditorialsFromText(FILE* pFile , LinkedList* pArrayListEditorials);
+int parser_ToSaveAsText(FILE* pFile , LinkedList* pArrayListMinotauroBooks,LinkedList* pArrayListEditorials);
+
 
 
 

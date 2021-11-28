@@ -717,10 +717,27 @@ int ll_count(LinkedList* this, int (*fn)(void* element))
 LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
 {
 	LinkedList* Aux;
+	int catcher;
+	LinkedList* minotaurosBook;
 
+	minotaurosBook = ll_newLinkedList();
 
+	if(this != NULL)
+	{
+		for(int i = 0; i < ll_len(this); i++)
+		{
+			Aux = ll_get(this,i);
+			catcher = fn(Aux);
 
-	return Aux;
+			if(catcher == 1)
+			{
+				ll_add(minotaurosBook, Aux);
+
+			}
+		}
+	}
+
+	return minotaurosBook;
 }
 
 

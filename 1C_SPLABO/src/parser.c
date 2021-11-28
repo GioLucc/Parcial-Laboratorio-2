@@ -76,3 +76,41 @@ int parser_EditorialsFromText(FILE* pFile , LinkedList* pArrayListEditorials)
 	return state;
 }
 
+int parser_ToSaveAsText(FILE* pFile , LinkedList* pArrayListMinotauroBooks,LinkedList* pArrayListEditorials)
+{
+	Book* auxMinotauroBooks;
+	Editorial* editorialBookstring;
+	int state;
+	int id;
+	char title [MAX_CHAR];
+	char author [MAX_CHAR];
+	float price;
+	int editorialId;
+	char editorialName[CHAR_MAX];
+
+	state = -1;
+
+	if(pFile != NULL && pArrayListMinotauroBooks != NULL)
+	{
+
+		for(int i = 0; i < ll_len(pArrayListMinotauroBooks); i++)
+		{
+			state = 0;
+
+			auxMinotauroBooks = ll_get(pArrayListMinotauroBooks, i);
+			BOOK_getId(auxMinotauroBooks, &id);
+			BOOK_getTitle(auxMinotauroBooks, title);
+			BOOK_getAuthor(auxMinotauroBooks, author);
+			BOOK_getPrice(auxMinotauroBooks, &price);
+			BOOK_getEditorialId(auxMinotauroBooks, &editorialId);
+			editorialBookstring = bringEditorials(pArrayListEditorials, editorialId);
+			EDI_getEditorialName(editorialBookstring, editorialName);
+
+			fprintf(pFile,"%d,%s,%s,%.2f,%s\n",id,title,author,price,editorialName);
+		}
+	}
+
+	return state;
+}
+
+

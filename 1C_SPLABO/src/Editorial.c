@@ -6,6 +6,7 @@
  */
 
 #include "Editorial.h"
+#include "Book.h"
 
 Editorial* EDI_new()
 {
@@ -162,6 +163,29 @@ Editorial* bringEditorials (LinkedList* pArrayListEditorials, int bookEditorialI
 	return bookStringEditorial;
 }
 
+int EDI_criterio (void* element)
+{
+	int state;
+	Book* auxBook;
+	int minotauroEditorialId;
+	int elementEditorialId;
+
+	minotauroEditorialId = 4;
+	state = 0;
+
+	if(element != NULL)
+	{
+		auxBook = (Book*)element;
+		BOOK_getEditorialId(auxBook, &elementEditorialId);
+
+		if(minotauroEditorialId == elementEditorialId)
+		{
+			state = 1;
+		}
+	}
+
+	return state;
+}
 
 
 

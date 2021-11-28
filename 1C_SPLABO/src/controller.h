@@ -17,6 +17,8 @@
 int controller_loadFromText(char* path , LinkedList* pArrayList, int fileType);
 int controller_firstObligatoryLoad(int* verification);
 int controller_sortBookAuthors(LinkedList* pArrayListBooks);
+int controller_saveAsText(char* path , LinkedList* pArrayListMinotauroBooks, LinkedList* pArrayListEditorialsList);
+
 
 
 #endif /* CONTROLLER_H_ */

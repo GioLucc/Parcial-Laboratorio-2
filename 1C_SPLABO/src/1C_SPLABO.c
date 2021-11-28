@@ -72,12 +72,13 @@ int main(void)
 	setbuf(stdout,NULL);
 	LinkedList* booksList = ll_newLinkedList();
 	LinkedList* editorialsList = ll_newLinkedList();
+	LinkedList* minotaurosBookList;
 	int firstLoadFlag;
 	int booksQty;
 	int maxTimesCharge;
 	int menuOption;
 	char fileToChose[MAX_CHAR];
-//	char availableFiles[MAX_CHAR]={"Libros.csv"};
+	char availableFiles[MAX_CHAR]={"Libros.csv"};
 
 
     firstLoadFlag = 0;
@@ -130,6 +131,7 @@ int main(void)
 //     			   {
                 	   BOOK_showListOfBooks(booksList,editorialsList);
                 	   EDI_showListOfEditorials(editorialsList);
+
 //     			   }
 //				   else
 //				   {
@@ -137,6 +139,12 @@ int main(void)
 //						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
 //				   }
                break;
+           	   case 5:
+           		  minotaurosBookList = ll_filter(booksList,EDI_criterio);
+           		  BOOK_showListOfMinotaurosBook(minotaurosBookList, editorialsList);
+           		  controller_saveAsText("LibrosEditorialMinotauro.csv", minotaurosBookList, editorialsList);
+
+           	   break;
           }
        }while(menuOption != 6);
 

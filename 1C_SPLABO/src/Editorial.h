@@ -30,6 +30,7 @@ int EDI_showListOfEditorials(LinkedList* pArrayListEditorials);
 int EDI_showOneEditorials(Editorial* this);
 int EDI_showListOfEditorials(LinkedList* pArrayListEditorials);
 Editorial* bringEditorials (LinkedList* pArrayListEditorials, int bookEditorialId);
+int EDI_criterio (void* element);
 
 
 
