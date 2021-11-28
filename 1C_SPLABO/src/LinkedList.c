@@ -392,8 +392,7 @@ int ll_indexOf(LinkedList* this, void* pElement)
     {
     	for(int i = 0; i < ll_len(this); i++)
     	{
-    		auxNode = getNode(this, i);
-    		// ll_get modify
+    		auxNode = ll_get(this, i);
 
     		if(auxNode != NULL)
     		{
@@ -705,7 +704,16 @@ int ll_count(LinkedList* this, int (*fn)(void* element))
 
 	return returnAux;
 }
-/*
+
+///función ll_filter* del LinkedList. Guardar el listado en un archivo csv.
+///Detalle de la función “ll_filter()”
+///Prototipo de la función:
+///LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
+///La función “ll_filter” recibirá una lista y una función criterio “fn”. Se deberá iterar todos los elementos
+///de la lista y pasarlos a la función “fn”. La función “fn” devolverá 1 si ese ítem se debe agregar a la
+///lista resultado o 0 si no debe agregarse. La función “ll_filter” generará la nueva lista resultado,
+///agregará a la misma los ítems correspondientes y la devolverá.
+
 LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
 {
 	LinkedList* Aux;
@@ -715,6 +723,5 @@ LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
 	return Aux;
 }
 
-*/
 
 #endif /* LINKEDLIST_C_ */

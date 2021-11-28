@@ -7,7 +7,7 @@
 
 #include "Controller.h"
 
-int controller_loadFromText(char* path , LinkedList* pArrayListBooks)
+int controller_loadFromText(char* path , LinkedList* pArrayList, int fileType)
 {
 	FILE* auxFile;
 	int state;
@@ -18,9 +18,16 @@ int controller_loadFromText(char* path , LinkedList* pArrayListBooks)
 
 	if(auxFile != NULL)
 	{
-		if(!parser_BooksFromText(auxFile, pArrayListBooks))
+		if(fileType == 1)
 		{
-			state = 0;
+			parser_BooksFromText(auxFile, pArrayList);
+				state = 0;
+		}
+		else
+		{
+			parser_EditorialsFromText(auxFile, pArrayList);
+			printf("ENTRE al parser editoriales");
+				state = 0;
 		}
 
 		fclose(auxFile);
@@ -35,11 +42,41 @@ int controller_firstObligatoryLoad(int* verification)
 	{
 		return 1;
 	}
+
 	else
 	{
 		return 0;
 	}
 }
 
+int controller_sortBookAuthors(LinkedList* pArrayListBooks)
+{
+	int state;
+	int menuOption;
 
+	state = -1;
+
+	if(pArrayListBooks != NULL)
+	{
+		menuOption = getValidInt("\n\nComo le gustaria ordenar los autores de los libros?\n\t\t "
+				"1 -> (Autores [Mayor] Ascendentes) || 2 -> (Sueldos [Mayor]  Descendentes) \n\t\t",
+				"\n\nERROR - (Ingrese una opcion correcta) - ERROR", 1, 2);
+
+		switch (menuOption) {
+			case 1:
+				ll_sort(pArrayListBooks, BOOK_compareByAuthors, 1);
+				printf("Se han ordenado los empleados satisfactoriamente");
+
+			break;
+
+			default:
+				ll_sort(pArrayListBooks, BOOK_compareByAuthors, 0);
+				printf("Se han ordenado los empleados satisfactoriamente");
+			break;
+		}
+
+	}
+
+	return state;
+}
 

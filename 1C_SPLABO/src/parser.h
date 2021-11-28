@@ -10,6 +10,8 @@
 #include "Book.h"
 
 int parser_BooksFromText(FILE* pFile , LinkedList* pArrayListBooks);
+int parser_EditorialsFromText(FILE* pFile , LinkedList* pArrayListEditorials);
+
 
 
 #endif /* PARSER_H_ */

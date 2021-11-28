@@ -22,8 +22,7 @@ struct
 }typedef Book;
 
 Book* BOOK_new();
-Book* BOOK_newCharge(char* idStr, char* titleStr, char* authorStr, char* priceStr);
-int BOOK_showOneBook(Book* this);
+Book* BOOK_newCharge(char* idStr, char* titleStr, char* authorStr, char* priceStr, char* editorialStr);
 void BOOK_delete(Book* this);
 int BOOK_setId(Book* this, int id);
 int BOOK_setTitle(Book* this, char* title);
@@ -35,8 +34,10 @@ int BOOK_getTitle(Book* this, char *title);
 int BOOK_getAuthor(Book* this, char *author);
 int BOOK_getPrice(Book* this, char *price);
 int BOOK_getEditorialId(Book* this, int *editorialId);
-int BOOK_showOneBook(Book* this);
-int BOOK_showListOfBooks(LinkedList* pArrayListBooks);
+int BOOK_showOneBook(Book* this, LinkedList* pArrayListEditorials);
+int BOOK_showListOfBooks(LinkedList* pArrayListBooks, LinkedList* pArrayListEditorials);
+int BOOK_compareByAuthors(void* element1, void* element2);
+
 
 
 

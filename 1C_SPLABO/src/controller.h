@@ -14,7 +14,9 @@
 #include "LinkedList.h"
 #include "parser.h"
 
-int controller_loadFromText(char* path , LinkedList* pArrayListEmployee);
+int controller_loadFromText(char* path , LinkedList* pArrayList, int fileType);
 int controller_firstObligatoryLoad(int* verification);
+int controller_sortBookAuthors(LinkedList* pArrayListBooks);
+
 
 #endif /* CONTROLLER_H_ */

@@ -17,7 +17,7 @@ Book* BOOK_new()
 	return newBook;
 }
 
-Book* BOOK_newCharge(char* idStr, char* titleStr, char* authorStr, char* priceStr)
+Book* BOOK_newCharge(char* idStr, char* titleStr, char* authorStr, char* priceStr, char* editorialStr)
 {
 	Book* newBook;
 
@@ -27,16 +27,19 @@ Book* BOOK_newCharge(char* idStr, char* titleStr, char* authorStr, char* priceSt
 	char title[MAX_CHAR];
 	char author[MAX_CHAR];
 	char price[MAX_CHAR];
+	int editorialId;
 
 	id = atoi(idStr);
 	strcpy(title,titleStr);
 	strcpy(author,authorStr);
 	strcpy(price,priceStr);
+	editorialId = atoi(editorialStr);
 
 	BOOK_setId(newBook, id);
 	BOOK_setTitle(newBook, title);
 	BOOK_setAuthor(newBook, author);
 	BOOK_setPrice(newBook, price);
+	BOOK_setEditorialId(newBook,editorialId);
 
 	return newBook;
 }
@@ -192,13 +195,16 @@ int BOOK_getEditorialId(Book* this, int *editorialId)
 	return state;
 }
 
-int BOOK_showOneBook(Book* this)
+int BOOK_showOneBook(Book* this, LinkedList* pArrayListEditorials)
 {
 	int state;
 	int id;
 	char title [MAX_CHAR];
 	char author [MAX_CHAR];
 	char price[MAX_CHAR];
+	int editorialId;
+	char editorial[MAX_CHAR];
+	Editorial* editorialName;
 
 	state = -1;
 
@@ -208,15 +214,18 @@ int BOOK_showOneBook(Book* this)
 		BOOK_getTitle(this, title);
 		BOOK_getAuthor(this, author);
 		BOOK_getPrice(this, price);
+		BOOK_getEditorialId(this, &editorialId);
+		editorialName = bringEditorials(pArrayListEditorials, editorialId);
+		EDI_getEditorialName(editorialName, editorial);
 
-		printf("\t\t\t\t|%4d  |%30s   | %22s         | %9s    |\n",id,title,author,price);
+		printf("\t\t\t|%4d  |%30s   | %22s         |   %9s  |    %18s   |\n",id,title,author,price,editorial);
 		state = 0;
 	}
 
 	return state;
 }
 
-int BOOK_showListOfBooks(LinkedList* pArrayListBooks)
+int BOOK_showListOfBooks(LinkedList* pArrayListBooks, LinkedList* pArrayListEditorials)
 {
 	Book* aux;
 	int state;
@@ -228,14 +237,14 @@ int BOOK_showListOfBooks(LinkedList* pArrayListBooks)
 	{
 		booksQty = ll_len(pArrayListBooks);
 
-		printf("\n\n\t\t\t\t|  ID  |              Title              |             Author             |    Price     |\n");
-		printf("\t\t\t\t|______|_________________________________|________________________________|______________|\n");
+		printf("\n\n\t\t\t|  ID  |              Title              |             Author             |    Price     |         Editorial       |\n");
+		printf("\t\t\t|______|_________________________________|________________________________|______________|_________________________|\n");
 
 		for(int i = 0; i < booksQty; i++)
 		{
 			aux = ll_get(pArrayListBooks, i);
 
-			BOOK_showOneBook(aux);
+			BOOK_showOneBook(aux,pArrayListEditorials);
 		}
 		state = 0;
 	}
@@ -243,9 +252,28 @@ int BOOK_showListOfBooks(LinkedList* pArrayListBooks)
 	return state;
 }
 
+int BOOK_compareByAuthors(void* element1, void* element2)
+{
+	Book* bookOne;
+	Book* bookTwo;
+	int criterio;
+	char author1[MAX_CHAR];
+	char author2[MAX_CHAR];
 
+	if(element1 != NULL && element2 != NULL)
+	{
+		bookOne = (Book*) element1;
+		bookTwo = (Book*) element2;
 
+		BOOK_getAuthor(bookOne, author1);
 
+		BOOK_getAuthor(bookTwo, author2);
+
+		criterio = strcmpi(author1,author2);
+	}
+
+	return criterio;
+}
 
 
 

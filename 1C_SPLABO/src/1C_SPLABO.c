@@ -71,12 +71,13 @@ int main(void)
 {
 	setbuf(stdout,NULL);
 	LinkedList* booksList = ll_newLinkedList();
+	LinkedList* editorialsList = ll_newLinkedList();
 	int firstLoadFlag;
 	int booksQty;
 	int maxTimesCharge;
 	int menuOption;
 	char fileToChose[MAX_CHAR];
-	char availableFiles[MAX_CHAR]={"Libros.csv"};;
+//	char availableFiles[MAX_CHAR]={"Libros.csv"};
 
 
     firstLoadFlag = 0;
@@ -87,57 +88,58 @@ int main(void)
     	booksQty = ll_len(booksList);
 
        	printMenu();
-
        	menuOption = getValidInt("\n\n\t\t\t\t\t\t   Ingrese una opcion del menu para realizar del 1 al 10: ",
        	"\n\n\t\t\t\t      ERROR - (Has ingresado un numero no contemplado en el menu reintente) - ERROR\n\n", 1, 10);
 
            switch(menuOption)
            {
            	   case 1:
-                 if(firstLoadFlag == 0
-                 && maxTimesCharge == 0)
-   			     {
-                	 getString("\n\n\t\t\t\t\tIngrese el nombre del archivo que quiere abrir (Disponibles {Libros.csv } o :", fileToChose);
-                	 if(strcmp(fileToChose,availableFiles)== 0)
-                	 {
-                		 controller_firstObligatoryLoad(&firstLoadFlag);
-						 controller_loadFromText("Libros.csv",booksList);
-						 printf("\n\t\t\t\t\t\t\tSe ha cargado la lista satisfactoriamente");
-	   	                 firstLoadFlag = 1;
-	   	                 maxTimesCharge = 1;
-                	 }
-                	 else
-                	 {
-    					 printf("\n\t\t\t\t\t\t\tNo se puede cargar porque no existe!\n"
-    						   "\t\t\t\t\t\t\t   intente ingresando el nombre de los disponibles nuevamente!");
-                	 }
-				 }
-				 else
-				 {
-					 printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
-						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
-				 }
+//                 if(firstLoadFlag == 0
+//                 && maxTimesCharge == 0)
+//   			     {
+//                	 getString("\n\n\t\t\t\t\tIngrese el nombre del archivo que quiere abrir (Disponibles {Libros.csv } o :", fileToChose);
+//                	 if(strcmp(fileToChose,availableFiles)== 0)
+//                	 {
+//                		 controller_firstObligatoryLoad(&firstLoadFlag);
+						 controller_loadFromText("Libros.csv",booksList,1);
+//						 printf("\n\t\t\t\t\t\t\tSe ha cargado la lista satisfactoriamente");
+//	   	                 firstLoadFlag = 1;
+//	   	                 maxTimesCharge = 1;
+//                	 }
+//                	 else
+//                	 {
+//    					 printf("\n\t\t\t\t\t\t\tNo se puede cargar porque no existe!\n"
+//    						   "\t\t\t\t\t\t\t   Intente ingresando el nombre de los disponibles nuevamente!");
+//                	 }
+//				 }
+//				 else
+//				 {
+//					 printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
+//						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
+//				 }
                break;
            	   case 2:
-
+					 controller_loadFromText("Editoriales.csv",editorialsList,0);
                break;
            	   case 3:
-
+           		   controller_sortBookAuthors(booksList);
                break;
            	   case 4:
-                   if(firstLoadFlag == 1
-                   && maxTimesCharge == 1)
-     			   {
-                	   BOOK_showListOfBooks(booksList);
-     			   }
-				   else
-				   {
-					   printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
-						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
-				   }
+//                   if(firstLoadFlag == 1
+//                   && maxTimesCharge == 1)
+//     			   {
+                	   BOOK_showListOfBooks(booksList,editorialsList);
+                	   EDI_showListOfEditorials(editorialsList);
+//     			   }
+//				   else
+//				   {
+//					   printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
+//						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
+//				   }
                break;
           }
        }while(menuOption != 6);
+
 
 
 	return EXIT_SUCCESS;
