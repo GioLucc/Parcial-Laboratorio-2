@@ -8,6 +8,10 @@
 #include "Editorial.h"
 #include "Book.h"
 
+/// @fn Editorial EDI_new*()
+/// @brief Crea espacio en memoria dinamica para el nuevo libro.
+///
+/// @return El espacio de memoria asignado para poder empezar a trabajar.
 Editorial* EDI_new()
 {
 	Editorial* newEditorial;
@@ -17,6 +21,12 @@ Editorial* EDI_new()
 	return newEditorial;
 }
 
+/// @fn Editorial EDI_newCharge*(char*, char*)
+/// @brief Recibe todos los datos en tipo string que contiene el archivo para meterlos dentro de la LinkedList.
+///
+/// @param idStr
+/// @param editorialStr
+/// @return un puntero a editorial ya cargado para usarlo o agregarlo a la LinkedList.
 Editorial* EDI_newCharge(char* idStr,char* editorialStr)
 {
 	Editorial* newEditorial;
@@ -34,6 +44,12 @@ Editorial* EDI_newCharge(char* idStr,char* editorialStr)
 	return newEditorial;
 }
 
+/// @fn int EDI_getId(Book*, int)
+/// @brief Guarda lo que tenga el this dentro del tipo de dato, pasado por parametros.
+///
+/// @param this
+/// @param id
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo asignarse correctamente.
 int EDI_getId(Editorial* this, int* editorialId)
 {
 	int state;
@@ -49,6 +65,12 @@ int EDI_getId(Editorial* this, int* editorialId)
 	return state;
 }
 
+/// @fn int EDI_getEditorialName(Book*, char*)
+/// @brief Guarda lo que tenga el this dentro del tipo de dato, pasado por parametros.
+///
+/// @param this
+/// @param id
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo asignarse correctamente.
 int EDI_getEditorialName(Editorial* this, char* editorialName)
 {
 	int state;
@@ -64,6 +86,12 @@ int EDI_getEditorialName(Editorial* this, char* editorialName)
 	return state;
 }
 
+/// @fn int EDI_setId(Book*, char*)
+/// @brief Toma el dato que le llega por parametros y se lo asigna a this.
+///
+/// @param this
+/// @param id
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo asignarse correctamente.
 int EDI_setId(Editorial* this, int editorialId)
 {
 	int state;
@@ -79,6 +107,12 @@ int EDI_setId(Editorial* this, int editorialId)
 	return state;
 }
 
+/// @fn int EDI_setEditorialName(Book*, char*)
+/// @brief Toma el dato que le llega por parametros y se lo asigna a this.
+///
+/// @param this
+/// @param id
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo asignarse correctamente.
 int EDI_setEditorialName(Editorial* this, char* editorialName)
 {
 	int state;
@@ -94,6 +128,12 @@ int EDI_setEditorialName(Editorial* this, char* editorialName)
 	return state;
 }
 
+/// @fn int EDI_showOneEditorials(Book*, LinkedList*)
+/// @brief Obtiene cada uno de los campos de this mediante los geters en esa posición para poder printearlos.
+///
+/// @param this
+/// @param pArrayListEditorials
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo correctamente.
 int EDI_showOneEditorials(Editorial* this)
 {
 	int state;
@@ -113,7 +153,12 @@ int EDI_showOneEditorials(Editorial* this)
 
 	return state;
 }
-
+/// @fn int EDI_showListOfEditorials(LinkedList*, LinkedList*)
+/// @brief Recorre la cantidad de elementos que hayan sido cargados en pArrayListBooks y llama a showOneBook para printear cada uno.
+///
+/// @param pArrayListBooks
+/// @param pArrayListEditorials
+/// @return -1 si se no pudo hacer correctamente, 0 si pudo correctamente.
 int EDI_showListOfEditorials(LinkedList* pArrayListEditorials)
 {
 	Editorial* aux;
@@ -140,6 +185,13 @@ int EDI_showListOfEditorials(LinkedList* pArrayListEditorials)
 
 	return state;
 }
+
+/// @fn Editorial bringEditorials*(LinkedList*, int)
+/// @brief Devuelve un puntero auxiliar de la estructura editorials con todos los datos con los que haya matcheado la id pasada por parametros.
+///
+/// @param pArrayListEditorials
+/// @param bookEditorialId
+/// @return NULL, o el puntero a estructura con todos los campos correspondientes del id matcheado.
 Editorial* bringEditorials (LinkedList* pArrayListEditorials, int bookEditorialId)
 {
 	Editorial* bookStringEditorial;
@@ -163,6 +215,11 @@ Editorial* bringEditorials (LinkedList* pArrayListEditorials, int bookEditorialI
 	return bookStringEditorial;
 }
 
+/// @fn int EDI_criterio(void*)
+/// @brief criterio usado a la hora de filtrar con el ll_filter, este evalua si void* element es igual a la id minotauro.
+///
+/// @param element
+/// @return 0 si se pudo realizar correctamente, -1 si no hubo match de filter.
 int EDI_criterio (void* element)
 {
 	int state;
@@ -181,6 +238,45 @@ int EDI_criterio (void* element)
 		if(minotauroEditorialId == elementEditorialId)
 		{
 			state = 1;
+		}
+	}
+
+	return state;
+}
+
+int EDIBOOKPRICE_criterio(void *element)
+{
+	int state;
+	Book* auxBook;
+	int elementEditorialId;
+	float elementPrice;
+	int idPlaneta;
+	int idSiglo;
+	float precioFinal;
+
+	auxBook = NULL;
+	idPlaneta = 1;
+	idSiglo = 2;
+	state = -1;
+	precioFinal = 0;
+
+	auxBook = (Book*)element;
+	BOOK_getEditorialId(auxBook, &elementEditorialId);
+	BOOK_getPrice(auxBook, &elementPrice);
+
+	if(elementEditorialId == idPlaneta && elementPrice > 299)
+	{
+		precioFinal = elementPrice - (elementPrice * 0.2);
+		BOOK_setPrice(auxBook, precioFinal);
+		state = 0;
+	}
+	else
+	{
+		if(elementEditorialId == idSiglo && elementPrice < 201)
+		{
+			precioFinal = elementPrice - (elementPrice * 0.1);
+			BOOK_setPrice(auxBook, precioFinal);
+			state = 0;
 		}
 	}
 

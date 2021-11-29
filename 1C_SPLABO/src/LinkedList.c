@@ -384,7 +384,7 @@ int ll_deleteLinkedList(LinkedList* this)
 int ll_indexOf(LinkedList* this, void* pElement)
 {
     int returnAux;
-    Node* auxNode;
+    void* elementoAux;
 
     returnAux = -1;
 
@@ -392,11 +392,11 @@ int ll_indexOf(LinkedList* this, void* pElement)
     {
     	for(int i = 0; i < ll_len(this); i++)
     	{
-    		auxNode = ll_get(this, i);
+    		elementoAux = ll_get(this, i);
 
-    		if(auxNode != NULL)
+    		if(elementoAux != NULL)
     		{
-        		if(auxNode->pElement == pElement)
+        		if(elementoAux == pElement)
         		{
         			returnAux = i;
         			break;
@@ -475,26 +475,20 @@ int ll_push(LinkedList* this, int index, void* pElement)
 void* ll_pop(LinkedList* this,int index)
 {
     void* returnAux;
-    Node* auxNode;
-    int len;
+    void* elementoAux;
 
     returnAux = NULL;
 
     	if(this != NULL)
     	{
-    		len = ll_len(this);
-
-    		if(index > -1 && index <= len)
-    		{
-    			auxNode = getNode(this, index); //ll_get
-
-    			if(auxNode != NULL)
-    			{
-        			returnAux = auxNode->pElement;
-        			ll_remove(this, index);
-    			}
-    		}
+			elementoAux = ll_get(this, index);
+			if(elementoAux != NULL)
+			{
+				returnAux = elementoAux;
+				ll_remove(this, index);
+			}
     	}
+
     return returnAux;
 }
 
@@ -510,7 +504,7 @@ void* ll_pop(LinkedList* this,int index)
 int ll_contains(LinkedList* this, void* pElement)
 {
     int returnAux;
-    Node* auxNode;
+    void* elementoAux;
 
     returnAux = -1;
 
@@ -522,11 +516,11 @@ int ll_contains(LinkedList* this, void* pElement)
 
 		for(int i = 0; i < len; i++)
 		{
-			auxNode = getNode(this, i);
+			elementoAux = ll_get(this, i);
 
-			if(auxNode != NULL)
+			if(elementoAux != NULL)
 			{
-				if(auxNode->pElement == pElement)
+				if(elementoAux == pElement)
 				{
 					returnAux = 1;
 					break;
@@ -550,7 +544,7 @@ int ll_contains(LinkedList* this, void* pElement)
 int ll_containsAll(LinkedList* this,LinkedList* this2)
 {
     int returnAux;
-    int lenThis1;
+    int lenThis2;
     void* auxPElement;
     int containsReturn;
 
@@ -559,11 +553,11 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
     if(this != NULL && this2 != NULL)
     {
 		returnAux = 1;
-    	lenThis1 = ll_len(this2);
+		lenThis2 = ll_len(this2);
 
-    	if(lenThis1 > 0)
+    	if(lenThis2 > 0)
     	{
-    		for(int i = 0; i < lenThis1; i++)
+    		for(int i = 0; i < lenThis2; i++)
 			{
     			auxPElement = ll_get(this2, i);
     			containsReturn = ll_contains(this,auxPElement);
@@ -601,7 +595,7 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
     {
     	len = ll_len(this);
 
-    	if(from > -1 && to <= len) // mirar
+    	if(from >= 0 && from < to && to < len)
     	{
     		cloneArray = ll_newLinkedList();
 
@@ -638,7 +632,7 @@ LinkedList* ll_clone(LinkedList* this)
     	len = ll_len(this);
     	cloneArray = ll_newLinkedList();
 
-    	if(cloneArray != NULL)
+    	if(cloneArray != NULL && len > 0)
     	{
     		cloneArray = ll_subList(this, 0, len);
     	}
@@ -740,5 +734,26 @@ LinkedList* ll_filter(LinkedList* this, int (*fn)(void* element))
 	return minotaurosBook;
 }
 
+int ll_map(LinkedList* this, int (*fn)(void* element))
+{
+	void* catcher;
+	int state;
+
+	state = -1;
+
+	if(this != NULL)
+	{
+		for(int i = 0; i < ll_len(this); i++)
+		{
+			catcher = ll_get(this,i);
+			if(fn(catcher)==0)
+			{
+				state = 0;
+			}
+		}
+	}
+
+	return state;
+}
 
 #endif /* LINKEDLIST_C_ */

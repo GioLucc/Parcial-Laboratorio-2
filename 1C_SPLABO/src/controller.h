@@ -14,10 +14,16 @@
 #include "LinkedList.h"
 #include "parser.h"
 
-int controller_loadFromText(char* path , LinkedList* pArrayList, int fileType);
-int controller_firstObligatoryLoad(int* verification);
+int controller_loadFromText(char* path , LinkedList* pArrayList);
+int controller_loadFromTextEditorials(char* path, LinkedList* pArrayList);
 int controller_sortBookAuthors(LinkedList* pArrayListBooks);
 int controller_saveAsText(char* path , LinkedList* pArrayListMinotauroBooks, LinkedList* pArrayListEditorialsList);
+int controller_displayBooksAndEditorialsLists(LinkedList* booksList, LinkedList* editorialsList);
+int controller_MinotauroFilter (LinkedList* booksList, LinkedList* editorialsList);
+int controller_saveAsTextMappeo(char* path , LinkedList* pArrayListBooks, LinkedList* pArrayListEditorialsList);
+int controller_callMappeado(LinkedList* pArrayListBooks, LinkedList* pArrayListEditorialsList);
+
+
 
 
 

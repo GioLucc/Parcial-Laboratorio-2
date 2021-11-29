@@ -20,7 +20,8 @@ void printMenu(void)
 	printf("\t> 3 - Ordenar la lista generada en el ítem anterior, con la función ll_sort, según el criterio de ordenamiento “Autor” de manera ascendente. - 3 <\n\n");
 	printf("\t\t\t\t\t    > 4 - Imprimir por pantalla todos los datos de los libros. - 4 <\n\n");
 	printf("\t    > 5 - Realizar un listado de los libros de la editorial MINOTAURO. Para ello deberá utilizar la función ll_filter* del LinkedList. - 5 <\n\n");
-	printf("\t\t\t\t\t\t\t               > 6 - Salir - 6 <\n");
+	printf("\t\t\t\t    > 6 - Generar el archivo de salida “mapeado.csv” luego de aplicar la función map. - 6 <\n\n");
+	printf("\t\t\t\t\t\t\t               > 7 - Salir - 7 <\n");
 }
 
 int getValidInt(char mensaje [], char error [], int min, int max)

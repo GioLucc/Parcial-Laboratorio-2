@@ -72,81 +72,102 @@ int main(void)
 	setbuf(stdout,NULL);
 	LinkedList* booksList = ll_newLinkedList();
 	LinkedList* editorialsList = ll_newLinkedList();
-	LinkedList* minotaurosBookList;
-	int firstLoadFlag;
-	int booksQty;
-	int maxTimesCharge;
+	int state;
 	int menuOption;
-	char fileToChose[MAX_CHAR];
-	char availableFiles[MAX_CHAR]={"Libros.csv"};
+	char nombredeArchivo[MAX_CHAR];
 
 
-    firstLoadFlag = 0;
-    maxTimesCharge = 0;
-
-      do
+	do
        {
-    	booksQty = ll_len(booksList);
 
        	printMenu();
        	menuOption = getValidInt("\n\n\t\t\t\t\t\t   Ingrese una opcion del menu para realizar del 1 al 10: ",
-       	"\n\n\t\t\t\t      ERROR - (Has ingresado un numero no contemplado en el menu reintente) - ERROR\n\n", 1, 10);
+       	"\n\n\t\t\t\t      ERROR - (Has ingresado un numero no contemplado en el menu reintente) - ERROR\n\n", 1, 7);
 
            switch(menuOption)
            {
            	   case 1:
-//                 if(firstLoadFlag == 0
-//                 && maxTimesCharge == 0)
-//   			     {
-//                	 getString("\n\n\t\t\t\t\tIngrese el nombre del archivo que quiere abrir (Disponibles {Libros.csv } o :", fileToChose);
-//                	 if(strcmp(fileToChose,availableFiles)== 0)
-//                	 {
-//                		 controller_firstObligatoryLoad(&firstLoadFlag);
-						 controller_loadFromText("Libros.csv",booksList,1);
-//						 printf("\n\t\t\t\t\t\t\tSe ha cargado la lista satisfactoriamente");
-//	   	                 firstLoadFlag = 1;
-//	   	                 maxTimesCharge = 1;
-//                	 }
-//                	 else
-//                	 {
-//    					 printf("\n\t\t\t\t\t\t\tNo se puede cargar porque no existe!\n"
-//    						   "\t\t\t\t\t\t\t   Intente ingresando el nombre de los disponibles nuevamente!");
-//                	 }
-//				 }
-//				 else
-//				 {
-//					 printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
-//						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
-//				 }
+           		   if(ll_isEmpty(booksList) == 1)
+           		   {
+           			   getString("\n\n\t\t\t\t\tIngrese el nombre del archivo que quiere abrir (Disponibles {Libros.csv } o :", nombredeArchivo);
+           			   state = controller_loadFromText(nombredeArchivo,booksList);
+
+					 if(state == 0)
+					 {
+						 printf("\n\t\t\t\t\t\t\tSe ha cargado la lista satisfactoriamente");
+					 }
+					 else
+					 {
+						 if(state == -1)
+						 {
+							 printf("\n\t\t\t\t\t\t\tNo se puede cargar porque no existe!\n"
+							 "\t\t\t\t\t\t\t   Intente ingresando el nombre de los disponibles nuevamente!");
+						 }
+						 else
+						 {
+							 printf("El archivo contiene datos incompatibles");
+						 }
+
+					 }
+				 }
+           		 else
+				 {
+					 printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
+						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
+				 }
                break;
            	   case 2:
-					 controller_loadFromText("Editoriales.csv",editorialsList,0);
+           		   if(ll_isEmpty(editorialsList) == 1)
+           		   {
+           			   getString("\n\n\t\t\t\t\tIngrese el nombre del archivo que quiere abrir (Disponibles {Editoriales.csv } o :", nombredeArchivo);
+           			   state =  controller_loadFromTextEditorials(nombredeArchivo, editorialsList);
+
+           			   if(state == 0)
+           			   {
+           				   printf("\n\t\t\t\t\t\t\tSe ha cargado la lista satisfactoriamente");
+           			   }
+           			   else
+           			   {
+           				   if(state == -1)
+           				   {
+           					   printf("\n\t\t\t\t\t\t\tNo se puede cargar porque no existe!\n"
+           							   "\t\t\t\t\t\t\t   Intente ingresando el nombre de los disponibles nuevamente!");
+           				   }
+           				   else
+           				   {
+           					   printf("El archivo contiene datos incompatibles");
+           				   }
+
+           			   }
+				  }
+           		  else
+				  {
+           			  printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
+						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
+				  }
                break;
            	   case 3:
            		   controller_sortBookAuthors(booksList);
                break;
            	   case 4:
-//                   if(firstLoadFlag == 1
-//                   && maxTimesCharge == 1)
-//     			   {
-                	   BOOK_showListOfBooks(booksList,editorialsList);
-                	   EDI_showListOfEditorials(editorialsList);
-
-//     			   }
-//				   else
-//				   {
-//					   printf("\n\t\t\t\t\t\t\tNo se puede cargar el archivo mas de una vez!\n"
-//						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
-//				   }
+                   if(ll_isEmpty(editorialsList) == 0 && ll_isEmpty(booksList) == 0)
+    			   {
+                	   controller_displayBooksAndEditorialsLists(booksList, editorialsList);
+     			   }
+				   else
+				   {
+					   printf("\n\t\t\t\t\t\t\tNo se pueden mostrar los archivos ya que no ha cargado los Libros o Editoriales!\n"
+						   "\t\t\t\t\t\t\t   Esto ocasionaria un error en el programa");
+				   }
                break;
            	   case 5:
-           		  minotaurosBookList = ll_filter(booksList,EDI_criterio);
-           		  BOOK_showListOfMinotaurosBook(minotaurosBookList, editorialsList);
-           		  controller_saveAsText("LibrosEditorialMinotauro.csv", minotaurosBookList, editorialsList);
-
+           		   controller_MinotauroFilter(booksList, editorialsList);
+           	   break;
+           	   case 6:
+           		   controller_callMappeado(booksList, editorialsList);
            	   break;
           }
-       }while(menuOption != 6);
+       }while(menuOption != 7);
 
 
 
